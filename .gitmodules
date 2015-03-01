@@ -1,0 +1,3 @@
+[submodule "data"]
+	path = data
+	url = git@github.com:cancuengt/elecciones2015.git
