@@ -19,6 +19,7 @@ class Acta extends AbstractDoctrineEntity
 
     /**
      * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer", options={"unsigned"=true})
      *
      * @var int
@@ -34,6 +35,26 @@ class Acta extends AbstractDoctrineEntity
      */
     protected $height = 0;
 
+
+    /**
+     * Ancho del acta escaneada
+     *
+     * @ORM\Column(type="integer", options={"unsigned"=true})
+     *
+     * @var int
+     */
+    protected $mesa;
+
+
+    /**
+     * Tipo de elección
+     *
+     * @ORM\Column(type="integer", options={"unsigned"=true})
+     *
+     * @var int
+     */
+    protected $type;
+
     /**
      * Ancho del acta escaneada
      *
@@ -42,16 +63,6 @@ class Acta extends AbstractDoctrineEntity
      * @var int
      */
     protected $width = 0;
-
-    /**
-     * Tipo de elección
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer", options={"unsigned"=true})
-     *
-     * @var int
-     */
-    protected $type;
 
     /**
      * Listado de posibles tipos de actas
@@ -82,6 +93,13 @@ class Acta extends AbstractDoctrineEntity
     }
 
     /**
+     * @return the $mesa
+     */
+    public function getMesa ()
+    {
+        return $this->mesa;
+    }
+    /**
      * @return the $width
      */
     public function getWidth ()
@@ -98,20 +116,23 @@ class Acta extends AbstractDoctrineEntity
     }
 
     /**
-     * @param number $id
-     */
-    public function setId ($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    /**
      * @param number $height
      */
     public function setHeight ($height)
     {
         $this->height = $height;
+        return $this;
+    }
+
+
+    /**
+     * @param number $id
+     */
+    public function setMesa($mesa)
+    {
+        $mesa = (int) $mesa;
+        if ($mesa < 1) throw new \Exception('Mesa inválida');
+        $this->mesa = $mesa;
         return $this;
     }
 

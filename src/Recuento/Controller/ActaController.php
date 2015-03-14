@@ -18,6 +18,8 @@ class ActaController extends AbstractActionController
             $docs = [];
             foreach($dir as $file) {
                 if (!$file->isFile()) continue;
+                $ext = substr($file->getFilename(), -3);
+                if ($ext != 'jpg') continue;
                 $id = (int) substr($file->getFilename(), 0, 5);
                 $docs[$id] = $file->getPathname();
             }
@@ -25,15 +27,13 @@ class ActaController extends AbstractActionController
             $repository = $this->getServiceLocator()->get('Recuento\Repository\ActaRepository');
             /* @var $repository \Recuento\Repository\ActaRepository */
             foreach ($docs as $id => $doc) {
-                $acta = $repository->find(['id' => $id, 'type' => $type]);
+                $acta = $repository->findOneBy(['mesa' => $id, 'type' => $type]);
                 if ($acta) continue;
                 $acta = new \Recuento\Entity\Acta();
-                $acta->setId($id)->setType($type);
+                $acta->setMesa($id)->setType($type);
                 $size = getimagesize($doc);
-                if ($size[0]) {
+                if ($size) {
                     $acta->setWidth($size[0]);
-                }
-                if ($size[1]) {
                     $acta->setHeight($size[1]);
                 }
                 $repository->save($acta);
