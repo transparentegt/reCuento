@@ -5,7 +5,7 @@ return [
             'application_entities' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => [__DIR__ . '../src/Recuento/Entity']
+                'paths' => [__DIR__ . '/../src/Recuento/Entity']
             ],
 
             'orm_default' => [

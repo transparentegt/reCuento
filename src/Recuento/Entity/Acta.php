@@ -1,12 +1,14 @@
 <?php
 namespace Recuento\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use \Transparente\Model\Entity\AbstractDoctrineEntity;
 
 /**
  * Las actas son los documentos de sumatorias de votos ingresados en el sistema del Tribunal Supremo Electoral, TSE
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Recuento\Repository\ActaRepository")
+ * @ORM\Table(name="recuento_acta")
  */
 class Acta extends AbstractDoctrineEntity
 {
@@ -17,8 +19,7 @@ class Acta extends AbstractDoctrineEntity
 
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"unsigned"=true})
      *
      * @var int
      */
@@ -27,25 +28,26 @@ class Acta extends AbstractDoctrineEntity
     /**
      * Alto del acta escaneada
      *
-     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
+     * @ORM\Column(type="integer", options={"unsigned"=true})
      *
      * @var int
      */
-    protected $height;
+    protected $height = 0;
 
     /**
      * Ancho del acta escaneada
      *
-     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
+     * @ORM\Column(type="integer", options={"unsigned"=true})
      *
      * @var int
      */
-    protected $width;
+    protected $width = 0;
 
     /**
      * Tipo de elección
      *
-     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
+     * @ORM\Id
+     * @ORM\Column(type="integer", options={"unsigned"=true})
      *
      * @var int
      */
@@ -62,5 +64,74 @@ class Acta extends AbstractDoctrineEntity
         self::TYPE_DIPUTADO_NACIONAL => 'diputados lista nacional',
         self::TYPE_MUNICIPAL         => 'corporación municipal',
     ];
+
+    /**
+     * @return the $id
+     */
+    public function getId ()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return the $height
+     */
+    public function getHeight ()
+    {
+        return $this->height;
+    }
+
+    /**
+     * @return the $width
+     */
+    public function getWidth ()
+    {
+        return $this->width;
+    }
+
+    /**
+     * @return the $type
+     */
+    public function getType ()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param number $id
+     */
+    public function setId ($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @param number $height
+     */
+    public function setHeight ($height)
+    {
+        $this->height = $height;
+        return $this;
+    }
+
+    /**
+     * @param number $width
+     */
+    public function setWidth ($width)
+    {
+        $this->width = $width;
+        return $this;
+    }
+
+    /**
+     * @param number $type
+     */
+    public function setType ($type)
+    {
+        $this->type = $type;
+        return $this;
+    }
+
 
 }

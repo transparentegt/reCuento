@@ -16,15 +16,30 @@ class ActaController extends AbstractActionController
             $dir  = dirname(dirname(dirname(__DIR__))) . '/data/actas/';
             $dir  = new \DirectoryIterator($dir .  $type);
             $docs = [];
-            foreach($dir as $key => $file) {
+            foreach($dir as $file) {
                 if (!$file->isFile()) continue;
                 $id = (int) substr($file->getFilename(), 0, 5);
                 $docs[$id] = $file->getPathname();
             }
             ksort($docs);
-            echo '<pre><strong>Debug::</strong>'.__FILE__.' +'.__LINE__.' -  '; var_dump($docs); die();
-            die();
-
+            $repository = $this->getServiceLocator()->get('Recuento\Repository\ActaRepository');
+            /* @var $repository \Recuento\Repository\ActaRepository */
+            foreach ($docs as $id => $doc) {
+                $acta = $repository->find(['id' => $id, 'type' => $type]);
+                if ($acta) continue;
+                $acta = new \Recuento\Entity\Acta();
+                $acta->setId($id)->setType($type);
+                $size = getimagesize($doc);
+                if ($size[0]) {
+                    $acta->setWidth($size[0]);
+                }
+                if ($size[1]) {
+                    $acta->setHeight($size[1]);
+                }
+                $repository->save($acta);
+                echo "\nGuardando acta: ".$acta->getId();
+            }
+            unset($docs);
         }
     }
 }

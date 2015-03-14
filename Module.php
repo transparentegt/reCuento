@@ -1,6 +1,8 @@
 <?php
 namespace Recuento;
 
+use Zend\ServiceManager\ServiceManager;
+
 class Module
 {
     public function getConfig()
@@ -18,5 +20,18 @@ class Module
             ),
         );
         return $autoloader;
+    }
+
+    public function getServiceConfig()
+    {
+        return [
+            'factories' => [
+                'Recuento\Repository\ActaRepository' => function (ServiceManager $sm) {
+                    $em    = $sm->get('Doctrine\ORM\EntityManager');
+                    $model = $em->getRepository('\Recuento\Entity\Acta');
+                    return $model;
+                },
+            ]
+        ];
     }
 }
