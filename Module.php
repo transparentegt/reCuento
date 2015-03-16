@@ -31,7 +31,12 @@ class Module
                     $model = $em->getRepository('\Recuento\Entity\Acta');
                     return $model;
                 },
-            ]
+                'Recuento\Repository\CaptchaRepository' => function (ServiceManager $sm) {
+                    $em    = $sm->get('Doctrine\ORM\EntityManager');
+                    $model = $em->getRepository('\Recuento\Entity\Captcha');
+                    return $model;
+                },
+            ],
         ];
     }
 }

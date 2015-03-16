@@ -85,6 +85,20 @@ class Acta extends AbstractDoctrineEntity
     }
 
     /**
+     * Returns image path
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+
+        $dir  = __DIR__ . '/../../../data/actas/';
+        $dir  = realpath($dir);
+        $path = sprintf($dir . '/%d/%05d%1$d.jpg', $this->getType(), $this->getId());
+        return $path;
+    }
+
+    /**
      * @return the $height
      */
     public function getHeight ()
@@ -123,7 +137,6 @@ class Acta extends AbstractDoctrineEntity
         $this->height = $height;
         return $this;
     }
-
 
     /**
      * @param number $id
